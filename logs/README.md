@@ -9,6 +9,7 @@ to a server, presumably one that collects telemetry, system information, the ses
 
 ## Step 2: Establish Persistence and Malicious Tooling in Endpoint
 <img width="1372" height="666" alt="51440f523f5779503963559f5e04bb77" src="https://github.com/user-attachments/assets/4180e2c3-f820-4a32-b177-bb17fe920e88" />
-Approximately ~50 DLLs were created in a temp file on the host machine. Presumably this is to participate in Resource Development (TA0042, Mitre ATT&CK Framework) to establish a set of tools that are necessary for the ransomware attack. These resources can also facilitate Execution (TA0002), Persistence, (TA0003), and might also be preparing for Lateral Movement (TA0008) through the network.
+Approximately ~50 DLLs were created in a temp file on the host machine. Presumably this is to participate in Resource Development (TA0042, Mitre ATT&CK Framework) to establish a set of tools that are necessary for the ransomware attack. For example, python3.dll and sqlite3.dll were installed into the temp folder, suggesting potential remote code execution or data exfiltration. On the Mitre ATT&CK Framework, these resources can facilitate Execution (TA0002) and Persistence (TA0003). It is possible that the attacker is preparing an environment for Lateral Movement (TA0008) through the endpoint or to infiltrate other devices in the network.
 
+## Step 3:
 
