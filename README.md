@@ -7,12 +7,16 @@ will also be written as a playbook to respond to a ransomware attack if it were 
 
 ## Objectives
 — Successfully perform a simulated ransomware attack on the Windows 10 VM
+
 — Perform Log Analysis of the Simulated Ransomware Attack
+
 — Create an Incident Response Report of the Simulated Ransomware Attack
 
 ## Lab Setup
 — Windows 10 VM
+
 — Infection Monkey
+
 — Windows Event Viewer
 
 ## Simulation Outcome
