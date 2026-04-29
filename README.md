@@ -19,8 +19,31 @@ of the key lessons that were learned from this lab.
 A [Windows 10 VM](https://www.microsoft.com/en-ca/software-download/windows10iso) was used as the target machine. [Infection Monkey](https://www.akamai.com/infectionmonkey) is the penetration testing tool that will launch a simulated ransomware attack on the Windows 10 VM device. [VirtualBox](https://www.virtualbox.org/wiki/Downloads) is a virtualisation software that can run the iso file of the Windows 10 VM. The [Windows Event Viewer](https://learn.microsoft.com/en-us/shows/inside/event-viewer) will have enhanced log collection due to running [Sysmon](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon) as a service in the background.
 
 ## Simulation Outcome
+The simulated ransomware attack was a success. The target files were encrypted. However, the granularity of Sysmon's logs did not show every step the attacker took.
+This could be because Sysmon had to be configured to watch more closely for write operations, or the current configuration was scope did not capture the particular
+methods the attacker was using. Sysmon likely showcased the development of the attacker's resources and part of the exploitation attack pathway, but was not able
+to capture the entire process in the current Sysmon configuration.
 
 ## Timeline of Attack
+`2026-04-25 03:45:06: Malicious Actor accesses the Banking Details text file containing sensitive information.`
+
+`2026-04-25 03:45:15: Various DLLs are installed into a temp folder on the target computer as tooling to facilitate the attack.`
+
+`2026-04-25 03:45:16: All DLLs are installed into temp folder.`
+
+`2026-04-25 03:45:16: Creates connection back to server.`
+
+`2026-04-25 03:45:25: Firewall configurations are checked; presumably to identify vulnerabilities for the attacker to exploit`
+
+`2026-04-25 03:45:24: Establishes a connection via TCP between target and host machine`
+
+`2026-04-25 03:45:27: Attacker duplicates the Infection Monkey process; likely to persist presence in target machine due to various connection requests`
+
+`2026-04-25 03:45:44: Attacker runs a loop to check whether an infection monkey process (PID 8612) is still running: if it's not, delete the monkey infection exe.`
+
+`2026-04-25 03:45:46.791: Process ID 8612 terminates.`
+
+`2026-04-25 03:45:52.162: The loop commands run, but is briefly terminated after it discovers process ID 8612 is no longer running.`
 
 ## Mitre ATT&CK Mapping
 
