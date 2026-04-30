@@ -50,7 +50,7 @@ to capture the entire process in the current Sysmon configuration.
 |------------------------------|--------------------------------------------------|-------------------------------------------------|--------------------------------------------------|
 | Query Firewall Information   | `netsh advfirewall show currentprofile`          | Reconaissance                                   | Network Security Appliances (T1590.006)          |
 | File Creation of DLLs        | File created: `\Temp\_MEI77402\VCRUNTIME140.dll` | Resource Development                            | Upload Tool (T1608.002)                          | 
-| Command Prompt Execution     | `/c tasklist /fi "PID eq 8612" | find /C "8612"` | Execution                                       | Windows Command Shell (T1059.003)                |
+| Command Prompt Execution     | `/c tasklist /fi "PID eq 8612"`                  | Execution                                       | Windows Command Shell (T1059.003)                |
 | Sensitive Data Encryption    | `Banking Details.txt` encrypted in target folder | Impact                                          | Data Encrypted For Impact (T1471)                |
 
 --> Reconaissance
