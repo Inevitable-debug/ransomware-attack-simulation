@@ -37,7 +37,7 @@ to capture the entire process in the current Sysmon configuration.
 
 `2026-04-25 03:45:24: Establishes a connection via TCP between target and host machine`
 
-`2026-04-25 03:45:27: Attacker duplicates the Infection Monkey process; likely to persist presence in target machine due to various connection requests`
+`2026-04-25 03:45:27: Attacker duplicates the Infection Monkey process with the --multiprocessing-fork command, which suggests the paralellisation of worker subprocesses in orchestrating the attack`
 
 `2026-04-25 03:45:44: Attacker runs a loop to check whether an infection monkey process (PID 8612) is still running: if it's not, delete the monkey infection exe.`
 
