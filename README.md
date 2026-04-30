@@ -46,6 +46,21 @@ to capture the entire process in the current Sysmon configuration.
 `2026-04-25 03:45:52.162: The loop commands run, but is briefly terminated after it discovers process ID 8612 is no longer running.`
 
 ## Mitre ATT&CK Mapping
+--> Reconaissance
+----> Gather Victim Network Information 
+------> Network Security Appliances 
+
+--> Resource Development
+----> Stage Capabilities
+------> Upload Tool
+
+--> Execution
+----> Command and Scripting Interpreter
+------> Windows Command Shell
+
+--> Impact
+----> Data Encrypted For Impact
+
 
 ## Incident Response Report
 
