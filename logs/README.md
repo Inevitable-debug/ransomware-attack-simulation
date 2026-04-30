@@ -1,25 +1,41 @@
 # Step-by-step of the Ransomware Attack
-In this README.md, the 82 logs that were associated with the ransomware attack will be analysed. Only the logs that were crucial to the functioning, persistence or execution of the ransomware attack will be analysed. Other logs that were deemed not as important will be filtered out of this analysis, such as the creation of the *api-ms-win-crt-locale-l1-1-0.dll* file.
+In this README.md, this will showcase a sequential and chronological account of the simulated ransomware attack. There are 89 recorded events in a Windows Event Log file. Although each of these recorded log events are in some way connected with the simulated ransomware attack, only relevant logs will be analysed to determine how they contributed to the cyber attack. Instead, a more
+holistic view of these other logs will be taken to develop a broader understanding of how those logs fit in to the bigger picture. As such, they will not be completely excluded, they will simply
+not be the focus of this analysis.
 
-## Step 1: Establish connection back to the server
-<img width="1296" height="547" alt="f8ba21b36ebd2f7dae14ca29303a510d" src="https://github.com/user-attachments/assets/4e9fc532-4dd7-4ec0-89f7-585e259d9b9c" />
-
-The most important part of this log is what was entered into the commandline as a parameter to launch the Infection Monkey.exe. The `C:\Users\micha\AppData\Roaming\monkey_island\monkey-windows-64.exe m0nk3y -s 192.168.20.10:5000` line establishes a connection back
-to a server, presumably one that collects telemetry, system information, the session, or manages retrieved data.
-
-## Step 2: Establish Persistence and Malicious Tooling in Endpoint
+## Phase A: Initial Access and Setup Configuration
 ### Exhibit A
-<img width="1372" height="666" alt="51440f523f5779503963559f5e04bb77" src="https://github.com/user-attachments/assets/4180e2c3-f820-4a32-b177-bb17fe920e88" />
-Approximately ~50 DLLs were created in a temp file on the host machine. Presumably this is to participate in Resource Development (TA0042, Mitre ATT&CK Framework) to establish a set of tools that are necessary for the ransomware attack. For example, python3.dll and sqlite3.dll were installed into the temp folder, suggesting potential remote code execution or data exfiltration. On the Mitre ATT&CK Framework, these resources can facilitate Execution (TA0002) and Persistence (TA0003). It is possible that the attacker is preparing an environment for Lateral Movement (TA0008) through the endpoint or to infiltrate other devices in the network. 
+<img width="1356" height="699" alt="123eb92f680f748f9c248ccb4466f957" src="https://github.com/user-attachments/assets/4d25091a-60aa-458b-8a00-19da5744757a" />
+
+Upon the malicious actor gaining initial access to the file directory they wish to exploit, in the log above they are able to read the contents of the 
+`Banking Details.txt` file.
+
 
 ### Exhibit B
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/86ab2660-c657-4ac3-bee6-4ea3856348f4" />
-Instances of the Infection Monkey process are being cloned with the `multiprocessing-fork` argument. This allows the attacker to run multiple instances of the Infection Monkey process simultaneously,
-and leverages multiple CPU cores. It is possible the attacker did this to increase the rate at which target files are being encrypted. It could also be a way to establish more than 1 connection
-with a server via multiple processes. This way if one process is lost, another process can still be open for the server to connect to so the exploit can still occur.
+<img width="1351" height="677" alt="64f34f49d5a7a2fa2c00627742d33969" src="https://github.com/user-attachments/assets/f2877725-559f-4f1e-9622-0382f8b953ee" />
 
-## Step 3: Checking Firewall settings
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/feec1fdd-e16a-4fd2-ac5c-8cc93e33a9e0" />
-This allows the malicious actor to check inbound/outbound rules, whether the Firewall is enabled or disabled, and logging settings of potential connections to the network. This information
-gives scope to what can be exploited on the endpoint.
+~50 DLLs were installed into the Temp folder in the target machine. These ranged from `sqlite3.dll`, `python3.dll`, `libcrypto-1_1.dll`, and various Microsoft api dlls such as
+`api-ms-win-crt-runtime-l1-1-0.dll`. It is possible the `libcrypto-1_1.dll` will be involved in facilitating the encryption of the file contents inside of `Banking Details.txt`.
+
+## Phase B: Duplicate Processes and Ascertain Network Security
+### Exhibit A
+<img width="1355" height="677" alt="efcefddf3617e29ab6dacc14dc6d9dda" src="https://github.com/user-attachments/assets/d15f0494-c06a-49c9-b8de-dfad0d939d15" />
+In this log, the `monkey-windows-64.exe` application process ID 8612 is being duplicated by `--multiprocessing-fork`. This can leverage multiple processors
+to run functions in paralell with different inputs at the same time. It is not completely clear why this process is being duplicated. It could be to encrypt
+files faster, to establish multiple network connections to the attacking server, or for some other reason.
+
+### Exhibit B
+<img width="1349" height="676" alt="41b8f95895ecabfe2d9d27443d975f33" src="https://github.com/user-attachments/assets/a182c0ab-27da-404b-85de-368bcdd14ac6" />
+This log showcases the `netsh advfirewall show currentprofile` command being run. This lets the attacker check the existing Firewall configurations, such as inbound/outbound rules, logging settings of network connections and if the state is configured to on. The utility of an attacker being able to access this is they can ascertain what activities may trigger an alert via a connection, what inbound or outbound actions are allowed or not allowed, and if the Firewall is operating in the first place.
+
+## Phase C: Establish Connections and Cleanly Exit
+### Exhibit A
+<img width="1363" height="699" alt="f466673d0cd04caddc4bf9aeef9a5157" src="https://github.com/user-attachments/assets/ccaea0f9-037a-4029-9bd0-4012f49017b5" />
+A TCP connection request is being sent from the attacking server to the host machine. Source Port 49905 and 49906 are used for destination port 5000. This suggests the attacker wants two potential
+attack vectors into the one port. This could be to take advantage of the paralellised processes that were created earlier.
+
+### Exhibit B
+<img width="1351" height="693" alt="407b7dbaa4ce275b5e32267885c40f1f" src="https://github.com/user-attachments/assets/a7a80120-a3a7-4cf1-9262-fcbf3ec1d3f9" />
+A complex Windows Batch command is shown in this log. A nested for loop has an outer loop and inner loop. The outer loop is designed to run the inner loop 20 times. This nested for loop is necessary, as for loops with the argument /F cannot define how many times it runs by itself. As a result, the outer loop is needed to ensure it iterates at least 20 times.
+The inner loop tries to find the process ID equalling 8612 that is returned from a tasklist. If a row with the process ID of 8612 is found, it is passed through a pipe operator (|) to `find`, which sifts through the row that was provided to it by the previous Microsoft batch command. If a match is found, the `%%j` value should be set to 1, and a timeout of 5 seconds will occur. Otherwise, if Process ID 8612 is not found, then the Infection Monkey.exe installed on the target machine will be removed, and the loop will terminate.
 
