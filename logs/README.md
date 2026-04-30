@@ -7,7 +7,7 @@ not be the focus of this analysis.
 ### Exhibit A
 <img width="1356" height="699" alt="123eb92f680f748f9c248ccb4466f957" src="https://github.com/user-attachments/assets/4d25091a-60aa-458b-8a00-19da5744757a" />
 
-Upon the malicious actor gaining initial access to the file directory they wish to exploit, in the log above they are able to read the contents of the 
+Upon gaining initial access to the file directory the ransomware operator wishes to exploit, in the log above they are able to read the contents of the 
 `Banking Details.txt` file.
 
 
