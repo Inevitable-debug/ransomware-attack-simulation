@@ -57,3 +57,6 @@ to capture the entire process in the current Sysmon configuration.
 The Incident Response Report follows a template supplied by the Victorian Government. It outlines the context of the report, the purpose, who oversees incident response efforts, and a defined table of terms to ensure the audience has a common dialect to understand the report. It also outlines common threat vectors, and a comprehensive incident response plan covering the detection phase all the way to lessons learned. This report can be found [here](/incident%20response%20report)
 
 ## Lessons Learned
+- Best way to correct a ransomware attack is to prevent it from happening in the first place
+- Apply encryption-at-rest to sensitive data to safeguard against cyber attacks
+- A robust incident response plan can help contain a ransomware attack before it becomes much worse
