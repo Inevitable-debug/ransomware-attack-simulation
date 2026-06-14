@@ -20,7 +20,7 @@ A [Windows 10 VM](https://www.microsoft.com/en-ca/software-download/windows10iso
 
 ## Simulation Outcome
 The simulated ransomware attack was a success. The target files were encrypted. However, the granularity of Sysmon's logs did not show every step the attacker took.
-This could be because Sysmon had to be configured to watch more closely for write operations, or the current configuration was scope did not capture the particular
+This could be because Sysmon had to be configured to watch more closely for write operations, or the scope of the current configuration did not capture the particular
 methods the attacker was using. Sysmon likely showcased the development of the attacker's resources and part of the exploitation attack pathway, but was not able
 to capture the entire process in the current Sysmon configuration.
 
